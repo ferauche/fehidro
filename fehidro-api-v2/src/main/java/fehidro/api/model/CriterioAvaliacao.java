@@ -87,7 +87,10 @@ public class CriterioAvaliacao extends AbstractEntity {
 	}
 
 	public List<SubcriterioAvaliacao> getSubcriterios() {
-		return new ArrayList<SubcriterioAvaliacao>(subcriterios);
+		if (subcriterios != null)
+			return new ArrayList<SubcriterioAvaliacao>(subcriterios);
+		else 
+			return new ArrayList<SubcriterioAvaliacao>();
 	}
 
 	public void setSubcriterios(List<SubcriterioAvaliacao> subcriterios) {
