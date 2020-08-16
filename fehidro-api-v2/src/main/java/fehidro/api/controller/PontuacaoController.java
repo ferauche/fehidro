@@ -16,49 +16,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import fehidro.api.model.CriterioAvaliacao;
-import fehidro.api.repository.CriterioAvaliacaoRepository;
+import fehidro.api.model.Pontuacao;
+import fehidro.api.repository.PontuacaoRepository;
 
 @RestController
-@RequestMapping("/criterioAvaliacao")
-public class CriterioAvaliacaoController {
+@RequestMapping("/pontuacao")
+public class PontuacaoController {
 
 	@Autowired
-	private CriterioAvaliacaoRepository _criterioAvaliacaoRepository; 
-
+	private PontuacaoRepository _pontuacaoRepository;
+	
 	@GetMapping
-	public ResponseEntity<List<CriterioAvaliacao>> getAll() {		
-		return ResponseEntity.ok(_criterioAvaliacaoRepository.findAll());
+	public ResponseEntity<List<Pontuacao>> getAll() {		
+		return ResponseEntity.ok(_pontuacaoRepository.findAll());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<CriterioAvaliacao> get(@PathVariable(value = "id") Long id) {
-		Optional<CriterioAvaliacao> criterio = _criterioAvaliacaoRepository.findById(id);
-		if(criterio.isPresent()) {
-			return ResponseEntity.ok(criterio.get());
+	public ResponseEntity<Pontuacao> get(@PathVariable(value = "id") Long id) {
+		Optional<Pontuacao> pontuacao = _pontuacaoRepository.findById(id);
+		if(pontuacao.isPresent()) {
+			return ResponseEntity.ok(pontuacao.get());
 		}
 
 		return ResponseEntity.notFound().build();
 	}
 
 	@PostMapping
-	public ResponseEntity<CriterioAvaliacao> add(@RequestBody CriterioAvaliacao criterio, UriComponentsBuilder uriBuilder) {
-		CriterioAvaliacao cadastrado = _criterioAvaliacaoRepository.save(criterio);
+	public ResponseEntity<Pontuacao> add(@RequestBody Pontuacao pontuacao, UriComponentsBuilder uriBuilder) {
+		Pontuacao cadastrado = _pontuacaoRepository.save(pontuacao);
 		URI uri = uriBuilder.path("/{id}").buildAndExpand(cadastrado.getId()).toUri();
 		return ResponseEntity.created(uri).body(cadastrado);
 	}
 
 	@PutMapping
-	public ResponseEntity<CriterioAvaliacao> update(@RequestBody CriterioAvaliacao criterio) {
-		CriterioAvaliacao cadastrado =  _criterioAvaliacaoRepository.save(criterio);
+	public ResponseEntity<Pontuacao> update(@RequestBody Pontuacao pontuacao) {
+		Pontuacao cadastrado =  _pontuacaoRepository.save(pontuacao);
 		return ResponseEntity.ok(cadastrado);
 	}
 
 	@DeleteMapping
 	public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-		Optional<CriterioAvaliacao> criterio = _criterioAvaliacaoRepository.findById(id);
-		if (criterio.isPresent()) {
-			_criterioAvaliacaoRepository.deleteById(id);
+		Optional<Pontuacao> pontuacao = _pontuacaoRepository.findById(id);
+		if (pontuacao.isPresent()) {
+			_pontuacaoRepository.deleteById(id);
 			return ResponseEntity.ok().build();
 		}
 
