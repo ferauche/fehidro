@@ -3,6 +3,7 @@ package fehidro.api.controller;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,28 +29,43 @@ public class UsuarioController {
 	private UsuarioRepository _usuarioRepository;
 	
 	@GetMapping
-	public List<Usuario> getAll() {		
-		return _usuarioRepository.findAll();
+	public ResponseEntity<List<Usuario>> getAll() {		
+		return ResponseEntity.ok(_usuarioRepository.findAll());
 	}
 	
 	@GetMapping("/{id}")
-	public Usuario get(@PathVariable(value = "id") Long id) {
-		return _usuarioRepository.findById(id).get();
+	public ResponseEntity<Usuario> get(@PathVariable(value = "id") Long id) {
+		Optional<Usuario> user = _usuarioRepository.findById(id);
+		if (user.isPresent()) {
+			return ResponseEntity.ok(user.get());
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 	
 	@GetMapping("/obterPorLogin/{login}")
-	public Usuario obterPorLogin(@PathVariable(value = "login") String login) {
-		return _usuarioRepository.findByLogin(login);
+	public ResponseEntity<Usuario> obterPorLogin(@PathVariable(value = "login") String login) {
+		Optional<Usuario> user = _usuarioRepository.findByLogin(login);
+		if (user.isPresent()) {
+			return ResponseEntity.ok(user.get());
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 	
 	@GetMapping("/obterPorCPF/{cpf}")
-	public Usuario obterPorCPF(@PathVariable(value = "cpf") String cpf) {
-		return _usuarioRepository.findByCPF(cpf);
+	public ResponseEntity<Usuario> obterPorCPF(@PathVariable(value = "cpf") String cpf) {
+		Optional<Usuario> user = _usuarioRepository.findByCPF(cpf);
+		if (user.isPresent()) {
+			return ResponseEntity.ok(user.get());
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 	
 	@GetMapping("/obterPorPerfilAcesso/{perfilacesso}")
-	public List<Usuario> obterPorPerfilAcesso(@PathVariable(value = "perfilacesso") Long perfilacesso) {
-		return _usuarioRepository.findAllByPerfilAcesso(perfilacesso);
+	public ResponseEntity<List<Usuario>> obterPorPerfilAcesso(@PathVariable(value = "perfilacesso") Long perfilacesso) {
+		return ResponseEntity.ok(_usuarioRepository.findAllByPerfilAcesso(perfilacesso));
 	}
 	
 	@PostMapping
@@ -71,8 +87,9 @@ public class UsuarioController {
 	}
 	
 	@PutMapping
-	public Usuario update(@RequestBody Usuario usuario) {
-		return _usuarioRepository.save(usuario);	
+	public ResponseEntity<Usuario> update(@RequestBody Usuario usuario) {
+		Usuario user = _usuarioRepository.save(usuario);	
+		return ResponseEntity.ok(user);
 	}
 	
 }
