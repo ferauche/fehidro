@@ -1,7 +1,6 @@
 package fehidro.api.controller;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ import fehidro.api.repository.UsuarioRepository;
 import fehidro.api.util.password.Password;
 
 @RestController
-@RequestMapping("usuario")
+@RequestMapping("/usuario")
 public class UsuarioController {
 	
 	@Autowired

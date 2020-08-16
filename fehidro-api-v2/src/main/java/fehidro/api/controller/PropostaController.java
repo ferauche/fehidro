@@ -16,49 +16,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import fehidro.api.model.CriterioAvaliacao;
-import fehidro.api.repository.CriterioAvaliacaoRepository;
+import fehidro.api.model.Proposta;
+import fehidro.api.repository.PropostaRepository;
 
 @RestController
-@RequestMapping("/criterioAvaliacao")
-public class CriterioAvaliacaoController {
+@RequestMapping("/proposta")
+public class PropostaController {
 
 	@Autowired
-	private CriterioAvaliacaoRepository _criterioAvaliacaoRepository; 
-
+	private PropostaRepository _propostaRepository;
+	
 	@GetMapping
-	public ResponseEntity<List<CriterioAvaliacao>> getAll() {		
-		return ResponseEntity.ok(_criterioAvaliacaoRepository.findAll());
+	public ResponseEntity<List<Proposta>> getAll() {		
+		return ResponseEntity.ok(_propostaRepository.findAll());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<CriterioAvaliacao> get(@PathVariable(value = "id") Long id) {
-		Optional<CriterioAvaliacao> criterio = _criterioAvaliacaoRepository.findById(id);
-		if(criterio.isPresent()) {
-			return ResponseEntity.ok(criterio.get());
+	public ResponseEntity<Proposta> get(@PathVariable(value = "id") Long id) {
+		Optional<Proposta> proposta = _propostaRepository.findById(id);
+		if(proposta.isPresent()) {
+			return ResponseEntity.ok(proposta.get());
 		}
 
 		return ResponseEntity.notFound().build();
 	}
 
 	@PostMapping
-	public ResponseEntity<CriterioAvaliacao> add(@RequestBody CriterioAvaliacao criterio, UriComponentsBuilder uriBuilder) {
-		CriterioAvaliacao cadastrado = _criterioAvaliacaoRepository.save(criterio);
+	public ResponseEntity<Proposta> add(@RequestBody Proposta proposta, UriComponentsBuilder uriBuilder) {
+		Proposta cadastrado = _propostaRepository.save(proposta);
 		URI uri = uriBuilder.path("/{id}").buildAndExpand(cadastrado.getId()).toUri();
 		return ResponseEntity.created(uri).body(cadastrado);
 	}
 
 	@PutMapping
-	public ResponseEntity<CriterioAvaliacao> update(@RequestBody CriterioAvaliacao criterio) {
-		CriterioAvaliacao cadastrado =  _criterioAvaliacaoRepository.save(criterio);
+	public ResponseEntity<Proposta> update(@RequestBody Proposta proposta) {
+		Proposta cadastrado =  _propostaRepository.save(proposta);
 		return ResponseEntity.ok(cadastrado);
 	}
 
 	@DeleteMapping
 	public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
-		Optional<CriterioAvaliacao> criterio = _criterioAvaliacaoRepository.findById(id);
-		if (criterio.isPresent()) {
-			_criterioAvaliacaoRepository.deleteById(id);
+		Optional<Proposta> proposta = _propostaRepository.findById(id);
+		if (proposta.isPresent()) {
+			_propostaRepository.deleteById(id);
 			return ResponseEntity.ok().build();
 		}
 
